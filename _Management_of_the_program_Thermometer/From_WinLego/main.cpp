@@ -1,10 +1,5 @@
 
 
-
-
-
-
-
 #include       "C:\dllBridge\Lego\WinMain.h"  
 using namespace Lego;
 
@@ -13,36 +8,47 @@ using namespace Lego;
 int         res, 
     Temperature;
 
+bool Burner;
+bool OldS;
 
+void ConnectionAndControl()
+{
+	Temperature = Transit[1][1];
+		
+	if(Burner != OldS)
+	{
+		if(Burner == true) 
+			res = __SET(-949, 1, 1);
+		if(Burner == false)      
+			res = __SET(-949, 1, 2);
+		
+		OldS = Burner;
+	}
+
+	LDIR(-949, 100, 100, 10);
+}
 
 void INIT()
-{	
-
-
-
+{
 
 }
 
-
-
-
-
-
-
 void START()
-{  
+{ 		
+	/////////////////////////////////////////////////////////////////////////////	
+	//																		   //		
+	// The "burner" variable is responsible for turning the burner on and off  //	
+	// The variable "Timer_CLK" is a timer	                                   //
+	// The variable "Temperature" contains the temperature of the thermometer  //
+	//                                                                         // 
+	/////////////////////////////////////////////////////////////////////////////
 
-  
-     Temperature = Transit[1][1];
-  
-     if(Temperature < 40 && Transit[1][2] == 0) res = __SET(-949, 1, 1);                //  Включить  газовую горелку
-     if(Temperature > 70 && Transit[1][2] == 1) res = __SET(-949, 1, 2);                //  Выключить газовую горелку
+	//...............WORK.ZONE.................\\
+	
+	
+	//...............WORK.ZONE.................\\
 
-     if(res == -102) Print(20, 160, "Turn on the program \"Thermometer\"");     
- 	 else 
-	                 Print(20, 160, "Temperature = ", Transit[1][1]);
- 	 
- 	 LDIR(-949, 100, 100, 10);
+	ConnectionAndControl();
 }
 
 
